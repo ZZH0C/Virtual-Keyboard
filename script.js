@@ -19,7 +19,6 @@ function textAreaAdd() {
 textAreaAdd();
 divAdd();
 
-
 const buttonDiv = document.querySelector('.class1');
 const area = document.querySelector('.textArea');
 const CapsToggle = false;
@@ -110,13 +109,14 @@ const digits = [
   ],
 ];
 
-
+// создание объекта из общего массива
 digits.forEach((item, i) => {
   item.forEach((item2, j) => {
     digits[i][j] = newSymbol(...item2);
   });
-}); // создание объекта из общего массива
+});
 
+// ф-ия для BackSpace
 function deleteBeforeCursor() {
   const start = area.selectionStart;
   const end = area.selectionEnd;
@@ -131,8 +131,9 @@ function deleteBeforeCursor() {
   area.selectionStart = (start - add < 0 ? start : start - add);
   area.selectionEnd = area.selectionStart;
   area.focus();
-} // ф-ия для BackSpace
+}
 
+// Добавление текста с учётом раскладки
 function addTextAreaText(item) {
   if (CapsToggle === false && ShiftToggle === false) {
     area.value += item.usualName;
@@ -143,9 +144,9 @@ function addTextAreaText(item) {
   if (CapsToggle === true) {
     area.value += item.capsName;
   }
-} // добавление текста в текстареа
+}
 
-
+// для обычных символов
 function keyEventNotSpecial(newButton, item, i, rowNumber) {
   newButton.addEventListener('mousedown', () => {
     addTextAreaText(item);
@@ -168,9 +169,9 @@ function keyEventNotSpecial(newButton, item, i, rowNumber) {
     });
     digits[rowNumber][i].documentEventTrigger = 1;
   }
-} // для обычных символов
+}
 
-
+// для специальных симолов
 function keyEventYesSpecial(newButton, item, i, rowNumber) {
   if (item.keyName === 'Shift') {
     newButton.addEventListener('mousedown', () => {
@@ -251,9 +252,9 @@ function keyEventYesSpecial(newButton, item, i, rowNumber) {
       digits[rowNumber][i].documentEventTrigger = 1;
     }
   }
-} // для специальных симолов
+}
 
-
+// создание кнопок
 function createKeyboard(ourDiv, digit, rowNumber) {
   digit.forEach((item, i) => {
     const newButton = document.createElement('button');
@@ -267,9 +268,9 @@ function createKeyboard(ourDiv, digit, rowNumber) {
     }
     ourDiv.append(newButton);
   });
-} // создаие кнопок
+}
 
-
+// создание рядов для корректного отображения клавиатуры
 function CreateButtonRows(row) {
   row.forEach((item, i) => {
     const newDiv = document.createElement('div');
@@ -277,10 +278,10 @@ function CreateButtonRows(row) {
     buttonDiv.append(newDiv);
     createKeyboard(newDiv, item, i);
   });
-} // создание рядов для кнопок
+}
 CreateButtonRows(digits);
 
-const b = buttonDiv.children;
+const b = buttonDiv.children; // перерисовка клавиатуры при нажатии шифт или капс
 function redraw(specialName, param) {
   for (let j = 0; j < b.length; j += 1) {
     const a = b[j].children;
@@ -293,4 +294,4 @@ function redraw(specialName, param) {
       }
     }
   }
-} // перерисовка клавиатуры при нажатии шифт или капс
+}
