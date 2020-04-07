@@ -47,12 +47,13 @@ const digits = [
     ['Digit7', '7', '&', '7', false, 0],
     ['Digit8', '8', '*', '8', false, 0],
     ['Digit9', '9', '(', '9', false, 0],
+    ['Digit0', '0', ')', '0', false, 0],
     ['Minus', '-', '_', '-', false, 0],
     ['Equal', '=', '+', '=', false, 0],
     ['Backspace', 'Backspace', 'Backspace', 'Backspace', true, 0],
   ],
   [
-    ['Tab', 'Tab', 'Tab', 'Tab', false, 0],
+    ['Tab', 'Tab', 'Tab', 'Tab', true, 0],
     ['KeyQ', 'q', 'Q', 'q', false, 0],
     ['KeyW', 'w', 'W', 'w', false, 0],
     ['KeyE', 'e', 'E', 'e', false, 0],
@@ -67,7 +68,7 @@ const digits = [
     [']', ']', '}', ']', false, 0],
   ],
   [
-    ['CapsLock', 'CapsLock', 'CapsLock', 'CapsLock', false, 0],
+    ['CapsLock', 'CapsLock', 'CapsLock', 'CapsLock', true, 0],
     ['KeyA', 'a', 'A', 'a', false, 0],
     ['KeyS', 's', 'S', 's', false, 0],
     ['KeyD', 'd', 'D', 'd', false, 0],
@@ -80,7 +81,7 @@ const digits = [
     ['Semicolon', ';', ':', 'p', false, 0],
     ['Quote', '\'', '"', '\'', false, 0],
     ['Backslash', '\\', '|', '\\', false, 0],
-    ['Enter', 'Enter', 'Enter', 'Enter', false, 0],
+    ['Enter', 'Enter', 'Enter', 'Enter', true, 0],
   ],
   [
     ['Shift', 'Shift', 'Shift', 'Shift', true, 0],
@@ -97,17 +98,24 @@ const digits = [
     ['Shift', 'Shift', 'Shift', 'Shift', true, 0],
   ],
   [
-    ['ControlLeft', 'Ctrl', 'Ctrl', 'Ctrl', false, 0],
-    ['AltLeft', 'Alt', 'Alt', 'Alt', false, 0],
-    ['Space', 'Space', 'Space', 'Space', false, 0],
-    ['AltRight', 'Alt', 'Alt', 'Alt', false, 0],
-    ['ControlRight', 'Ctrl', 'Ctrl', 'Ctrl', false, 0],
+    ['ControlLeft', 'Ctrl', 'Ctrl', 'Ctrl', true, 0],
+    ['AltLeft', 'Alt', 'Alt', 'Alt', true, 0],
+    ['Space', 'Space', 'Space', 'Space', true, 0],
+    ['AltRight', 'Alt', 'Alt', 'Alt', true, 0],
+    ['ControlRight', 'Ctrl', 'Ctrl', 'Ctrl', true, 0],
     ['ArrowLeft', '←', '←', '←', false, 0],
     ['ArrowUp', '↑', '↑', '↑', false, 0],
     ['ArrowDown', '↓', '↓', '↓', false, 0],
     ['ArrowRight', '→', '→', '→', false, 0],
   ],
 ];
+
+
+digits.forEach((item, i) => {
+  item.forEach((item2, j) => {
+    digits[i][j] = newSymbol(...item2);
+  });
+}); // создание объекта из общего массива
 
 function deleteBeforeCursor() {
   const start = area.selectionStart;
@@ -123,14 +131,7 @@ function deleteBeforeCursor() {
   area.selectionStart = (start - add < 0 ? start : start - add);
   area.selectionEnd = area.selectionStart;
   area.focus();
-}
-
-digits.forEach((item, i) => {
-  item.forEach((item2, j) => {
-    digits[i][j] = newSymbol(...item2);
-  });
-});
-
+} // ф-ия для BackSpace
 
 function addTextAreaText(item) {
   if (CapsToggle === false && ShiftToggle === false) {
@@ -176,13 +177,13 @@ function keyEventYesSpecial(newButton, item, i, rowNumber) {
       newButton.classList.add('active');
       ShiftToggle = true;
       // eslint-disable-next-line no-use-before-define
-      redraw(ShiftToggle);
+      redraw(ShiftToggle, 'Shift');
     });
     newButton.addEventListener('mouseup', () => {
       newButton.classList.remove('active');
       ShiftToggle = false;
       // eslint-disable-next-line no-use-before-define
-      redraw(ShiftToggle);
+      redraw(ShiftToggle, 'Shift');
     });
     if (item.documentEventTrigger === 0) {
       document.addEventListener('keydown', (event) => {
@@ -190,7 +191,7 @@ function keyEventYesSpecial(newButton, item, i, rowNumber) {
           newButton.classList.add('active');
           ShiftToggle = true;
           // eslint-disable-next-line no-use-before-define
-          redraw(ShiftToggle);
+          redraw(ShiftToggle, 'Shift');
         }
       });
       document.addEventListener('keyup', (event) => {
@@ -198,13 +199,12 @@ function keyEventYesSpecial(newButton, item, i, rowNumber) {
           newButton.classList.remove('active');
           ShiftToggle = false;
           // eslint-disable-next-line no-use-before-define
-          redraw(ShiftToggle);
+          redraw(ShiftToggle, 'Shift');
         }
       });
       digits[rowNumber][i].documentEventTrigger = 1;
     }
   }
-
 
   if (item.keyName === 'Backspace') {
     newButton.addEventListener('mousedown', () => {
@@ -224,6 +224,28 @@ function keyEventYesSpecial(newButton, item, i, rowNumber) {
         if (event.key === item.keyName) {
           newButton.classList.remove('active');
           deleteBeforeCursor();
+        }
+      });
+      digits[rowNumber][i].documentEventTrigger = 1;
+    }
+  }
+
+  if (item.keyName !== 'Backspace' && item.keyName !== 'Shift') {
+    newButton.addEventListener('mousedown', () => {
+      newButton.classList.add('active');
+    });
+    newButton.addEventListener('mouseup', () => {
+      newButton.classList.remove('active');
+    });
+    if (item.documentEventTrigger === 0) {
+      document.addEventListener('keydown', (event) => {
+        if (event.code === item.keyName) {
+          newButton.classList.add('active');
+        }
+      });
+      document.addEventListener('keyup', (event) => {
+        if (event.code === item.keyName) {
+          newButton.classList.remove('active');
         }
       });
       digits[rowNumber][i].documentEventTrigger = 1;
@@ -259,13 +281,12 @@ function CreateButtonRows(row) {
 CreateButtonRows(digits);
 
 const b = buttonDiv.children;
-
-function redraw(specialName) {
+function redraw(specialName, param) {
   for (let j = 0; j < b.length; j += 1) {
     const a = b[j].children;
     for (let i = 0; i < a.length; i += 1) {
       if (specialName) {
-        a[i].innerHTML = digits[j][i].shiftName;
+        if (param === 'Shift') { a[i].innerHTML = digits[j][i].shiftName; }
       }
       if (!specialName) {
         a[i].innerHTML = digits[j][i].usualName;
@@ -273,8 +294,3 @@ function redraw(specialName) {
     }
   }
 } // перерисовка клавиатуры при нажатии шифт или капс
-
-
-document.addEventListener('keyup', (event) => {
-  console.log(event);
-});
