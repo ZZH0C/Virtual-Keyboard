@@ -98,20 +98,30 @@ function keyEventYesSpecial(newButton, item, i) { // для специальны
       newButton.addEventListener('mousedown', () => {
         newButton.classList.add('active');
         ShiftToggle = true;
+        // eslint-disable-next-line no-use-before-define
+        redraw(ShiftToggle);
       });
       newButton.addEventListener('mouseup', () => {
         newButton.classList.remove('active');
         ShiftToggle = false;
+        // eslint-disable-next-line no-use-before-define
+        redraw(ShiftToggle);
       });
       if (item.documentEventTrigger === 0) {
         document.addEventListener('keydown', (event) => {
           if (event.key === item.keyName) {
             newButton.classList.add('active');
+            ShiftToggle = true;
+            // eslint-disable-next-line no-use-before-define
+            redraw(ShiftToggle);
           }
         });
         document.addEventListener('keyup', (event) => {
           if (event.key === item.keyName) {
             newButton.classList.remove('active');
+            ShiftToggle = false;
+            // eslint-disable-next-line no-use-before-define
+            redraw(ShiftToggle);
           }
         });
         digits[i].documentEventTrigger = 1;
@@ -123,10 +133,7 @@ function createKeyboard() {
   digits.forEach((item, i) => {
     const newButton = document.createElement('button');
     newButton.classList.add('button_class');
-
-
-    newButton.append(ShiftToggle ? item.shiftName : item.usualName);
-
+    newButton.append(item.usualName);
     if (item.specialTag === false) {
       keyEventNotSpecial(newButton, item, i);
     }
@@ -141,8 +148,15 @@ createKeyboard();
 
 
 const a = buttonDiv.children;
-for (let i = 0; i < a.length; i += 1) {
-  a[i].innerHTML = 'f';
+function redraw(specialName) {
+  for (let i = 0; i < a.length; i += 1) {
+    if (specialName) {
+      a[i].innerHTML = digits[i].shiftName;
+    }
+    if (!specialName) {
+      a[i].innerHTML = digits[i].usualName;
+    }
+  }
 }
 
 
