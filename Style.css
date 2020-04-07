@@ -16,8 +16,8 @@
 }
 
 .button_class {
-    padding-left: 1.5em;
-    padding-right: 1.2em;
+    min-width: 2.5em;
+
     margin: 1px;
     width: auto;
     height: 2rem;
