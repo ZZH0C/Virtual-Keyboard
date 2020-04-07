@@ -2,12 +2,10 @@
     margin: auto;
     width: 800px;
     height: 400px;
-
     background: #8987a5;
     flex-direction: column;
     display: flex;
     flex-wrap: wrap;
-
     align-items: center;
 }
 
@@ -17,14 +15,12 @@
 
 .button_class {
     min-width: 2.5em;
-
     margin: 1px;
     width: auto;
     height: 2rem;
+    transition: background 0.5s ease;
     background: burlywood;
 }
-
-
 
 .textAreaClass {
     margin: auto;
@@ -41,7 +37,8 @@
 }
 
 .active {
-    background: aqua
+    transition: background 0.5s ease;
+    background: aqua;
 }
 
 .button_class.active {
