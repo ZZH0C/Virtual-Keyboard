@@ -4,11 +4,15 @@
     height: 400px;
 
     background: #8987a5;
-
+    flex-direction: column;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+
     align-items: center;
+}
+
+.class1_podclass{
+
 }
 
 .button_class {
@@ -19,6 +23,8 @@
     height: 2rem;
     background: burlywood;
 }
+
+
 
 .textAreaClass {
     margin: auto;
