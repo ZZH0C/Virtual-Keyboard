@@ -1,4 +1,4 @@
-.class1{
+.class1 {
     margin: auto;
     width: 800px;
     height: 400px;
@@ -11,26 +11,33 @@
     align-items: center;
 }
 
-.button_class{
-    padding: 0;
-    margin: 5px;
-    width: 100px;
-    height: 100px;
+.button_class {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 1px;
+    width: auto;
+    height: 2rem;
     background: burlywood;
 }
 
-.textAreaClass{
+.textAreaClass {
     margin: auto;
     width: 800px;
     height: 100px;
 
 }
 
-.textArea{
+.textArea {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
 }
-.active{background: aqua}
-.button_class.active{background: aqua;}
+
+.active {
+    background: aqua
+}
+
+.button_class.active {
+    background: aqua;
+}

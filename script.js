@@ -45,10 +45,27 @@ const digits = [
   ['Digit7', '7', '&', '7', false, 0],
   ['Digit8', '8', '*', '8', false, 0],
   ['Digit9', '9', '(', '9', false, 0],
-  ['Digit0', '0', ')', '0', false, 0],
+  ['Minus', '-', '_', '-', false, 0],
+  ['Equal', '=', '+', '=', false, 0],
+  ['Backspace', 'Backspace', 'Backspace', 'Backspace', true, 0],
   ['Shift', 'Shift', 'Shift', 'Shift', true, 0],
 ];
 
+function deleteBeforeCursor() {
+  const start = area.selectionStart;
+  const end = area.selectionEnd;
+  let add = 0;
+  if (start === 0 && end === 0) {
+    return;
+  }
+  if (start === end) {
+    add = 1;
+  }
+  area.value = area.value.slice(0, start - add) + area.value.slice(end);
+  area.selectionStart = (start - add < 0 ? start : start - add);
+  area.selectionEnd = area.selectionStart;
+  area.focus();
+}
 
 digits.forEach((item, i) => {
   digits[i] = newSymbol(...item);
@@ -92,40 +109,61 @@ function keyEventNotSpecial(newButton, item, i) { // для обычных кл�
   }
 }
 function keyEventYesSpecial(newButton, item, i) { // для специальных клавиш
-  switch (item.key) {
-    default:
-    case 'Shift': // переключение для капса
-      newButton.addEventListener('mousedown', () => {
-        newButton.classList.add('active');
-        ShiftToggle = true;
-        // eslint-disable-next-line no-use-before-define
-        redraw(ShiftToggle);
+  if (item.keyName === 'Shift') {
+    newButton.addEventListener('mousedown', () => {
+      newButton.classList.add('active');
+      ShiftToggle = true;
+      // eslint-disable-next-line no-use-before-define
+      redraw(ShiftToggle);
+    });
+    newButton.addEventListener('mouseup', () => {
+      newButton.classList.remove('active');
+      ShiftToggle = false;
+      // eslint-disable-next-line no-use-before-define
+      redraw(ShiftToggle);
+    });
+    if (item.documentEventTrigger === 0) {
+      document.addEventListener('keydown', (event) => {
+        if (event.key === item.keyName) {
+          newButton.classList.add('active');
+          ShiftToggle = true;
+          // eslint-disable-next-line no-use-before-define
+          redraw(ShiftToggle);
+        }
       });
-      newButton.addEventListener('mouseup', () => {
-        newButton.classList.remove('active');
-        ShiftToggle = false;
-        // eslint-disable-next-line no-use-before-define
-        redraw(ShiftToggle);
+      document.addEventListener('keyup', (event) => {
+        if (event.key === item.keyName) {
+          newButton.classList.remove('active');
+          ShiftToggle = false;
+          // eslint-disable-next-line no-use-before-define
+          redraw(ShiftToggle);
+        }
       });
-      if (item.documentEventTrigger === 0) {
-        document.addEventListener('keydown', (event) => {
-          if (event.key === item.keyName) {
-            newButton.classList.add('active');
-            ShiftToggle = true;
-            // eslint-disable-next-line no-use-before-define
-            redraw(ShiftToggle);
-          }
-        });
-        document.addEventListener('keyup', (event) => {
-          if (event.key === item.keyName) {
-            newButton.classList.remove('active');
-            ShiftToggle = false;
-            // eslint-disable-next-line no-use-before-define
-            redraw(ShiftToggle);
-          }
-        });
-        digits[i].documentEventTrigger = 1;
-      }
+      digits[i].documentEventTrigger = 1;
+    }
+  }
+  if (item.keyName === 'Backspace') {
+    newButton.addEventListener('mousedown', () => {
+      newButton.classList.add('active');
+    });
+    newButton.addEventListener('mouseup', () => {
+      newButton.classList.remove('active');
+      deleteBeforeCursor();
+    });
+    if (item.documentEventTrigger === 0) {
+      document.addEventListener('keydown', (event) => {
+        if (event.key === item.keyName) {
+          newButton.classList.add('active');
+        }
+      });
+      document.addEventListener('keyup', (event) => {
+        if (event.key === item.keyName) {
+          newButton.classList.remove('active');
+          deleteBeforeCursor();
+        }
+      });
+      digits[i].documentEventTrigger = 1;
+    }
   }
 }
 
