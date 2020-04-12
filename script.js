@@ -1,4 +1,3 @@
-
 const buttonNames = [
   [
     ['Digit1', '1', '!', '1', false, false],
@@ -27,8 +26,8 @@ const buttonNames = [
     ['KeyI', 'i', 'I', 'i', false, false],
     ['KeyO', 'o', 'O', 'o', false, false],
     ['KeyP', 'p', 'P', 'p', false, false],
-    ['[', '[', '{', '[', false, false],
-    [']', ']', '}', ']', false, false],
+    ['BracketLeft', '[', '{', '[', false, false],
+    ['BracketRight', ']', '}', ']', false, false],
   ],
   [
     ['CapsLock', 'CapsLock', 'CapsLock', 'CapsLock', true, false],
@@ -52,7 +51,7 @@ const buttonNames = [
     ['KeyX', 'x', 'X', 'x', false, false],
     ['KeyC', 'c', 'C', 'c', false, false],
     ['KeyV', 'v', 'V', 'v', false, false],
-    ['KeyB', 'buttonRows', 'B', 'buttonRows', false, false],
+    ['KeyB', 'b', 'B', 'b', false, false],
     ['KeyN', 'n', 'N', 'n', false, false],
     ['KeyM', 'm', 'M', 'm', false, false],
     ['Comma', ',', '<', ',', false, false],
@@ -75,10 +74,10 @@ const buttonNames = [
 const CapsToggle = false;
 let ShiftToggle = false;
 
-function divAdd() {
-  const newDiv = document.createElement('div');
-  newDiv.classList.add('KeyboardContainer');
-  document.body.append(newDiv);
+function keyboardContainerAdd() {
+  const container = document.createElement('div');
+  container.classList.add('KeyboardContainer');
+  document.body.append(container);
 }
 
 function textAreaAdd() {
@@ -92,7 +91,7 @@ function textAreaAdd() {
 }
 
 textAreaAdd();
-divAdd();
+keyboardContainerAdd();
 
 const buttonDiv = document.querySelector('.KeyboardContainer');
 const buttonRows = buttonDiv.children;
@@ -130,7 +129,6 @@ function deleteBeforeCursor() {
   area.value = area.value.slice(0, start - add) + area.value.slice(end);
   area.selectionStart = (start - add < 0 ? start : start - add);
   area.selectionEnd = area.selectionStart;
-  area.focus();
 }
 
 function addTextAreaText(item) {
