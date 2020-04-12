@@ -1,16 +1,91 @@
-// Создание дива для кнопок
+
+const buttonNames = [
+  [
+    ['Digit1', '1', '!', '1', false, false],
+    ['Digit2', '2', '@', '2', false, false],
+    ['Digit3', '3', '#', '3', false, false],
+    ['Digit4', '4', '$', '4', false, false],
+    ['Digit5', '5', '%', '5', false, false],
+    ['Digit6', '6', '^', '6', false, false],
+    ['Digit7', '7', '&', '7', false, false],
+    ['Digit8', '8', '*', '8', false, false],
+    ['Digit9', '9', '(', '9', false, false],
+    ['Digit0', '0', ')', '0', false, false],
+    ['Minus', '-', '_', '-', false, false],
+    ['Equal', '=', '+', '=', false, false],
+    ['Backspace', 'Backspace', 'Backspace', 'Backspace', true, false],
+  ],
+  [
+    ['Tab', 'Tab', 'Tab', 'Tab', true, false],
+    ['KeyQ', 'q', 'Q', 'q', false, false],
+    ['KeyW', 'w', 'W', 'w', false, false],
+    ['KeyE', 'e', 'E', 'e', false, false],
+    ['KeyR', 'r', 'R', 'r', false, false],
+    ['KeyT', 't', 'T', 't', false, false],
+    ['KeyY', 'y', 'Y', 'y', false, false],
+    ['KeyU', 'u', 'U', 'u', false, false],
+    ['KeyI', 'i', 'I', 'i', false, false],
+    ['KeyO', 'o', 'O', 'o', false, false],
+    ['KeyP', 'p', 'P', 'p', false, false],
+    ['[', '[', '{', '[', false, false],
+    [']', ']', '}', ']', false, false],
+  ],
+  [
+    ['CapsLock', 'CapsLock', 'CapsLock', 'CapsLock', true, false],
+    ['KeyA', 'a', 'A', 'a', false, false],
+    ['KeyS', 's', 'S', 's', false, false],
+    ['KeyD', 'd', 'D', 'd', false, false],
+    ['KeyF', 'f', 'F', 'f', false, false],
+    ['KeyG', 'g', 'G', 'g', false, false],
+    ['KeyH', 'h', 'H', 'h', false, false],
+    ['KeyJ', 'j', 'J', 'j', false, false],
+    ['KeyK', 'k', 'K', 'k', false, false],
+    ['KeyL', 'l', 'L', 'l', false, false],
+    ['Semicolon', ';', ':', 'p', false, false],
+    ['Quote', '\'', '"', '\'', false, false],
+    ['Backslash', '\\', '|', '\\', false, false],
+    ['Enter', 'Enter', 'Enter', 'Enter', true, false],
+  ],
+  [
+    ['Shift', 'Shift', 'Shift', 'Shift', true, false],
+    ['KeyZ', 'z', 'Z', 'z', false, false],
+    ['KeyX', 'x', 'X', 'x', false, false],
+    ['KeyC', 'c', 'C', 'c', false, false],
+    ['KeyV', 'v', 'V', 'v', false, false],
+    ['KeyB', 'buttonRows', 'B', 'buttonRows', false, false],
+    ['KeyN', 'n', 'N', 'n', false, false],
+    ['KeyM', 'm', 'M', 'm', false, false],
+    ['Comma', ',', '<', ',', false, false],
+    ['Period', '.', '>', '.', false, false],
+    ['Slash', '/', '?', '/', false, false],
+    ['Shift', 'Shift', 'Shift', 'Shift', true, false],
+  ],
+  [
+    ['ControlLeft', 'Ctrl', 'Ctrl', 'Ctrl', true, false],
+    ['AltLeft', 'Alt', 'Alt', 'Alt', true, false],
+    ['Space', 'Space', 'Space', 'Space', true, false],
+    ['AltRight', 'Alt', 'Alt', 'Alt', true, false],
+    ['ControlRight', 'Ctrl', 'Ctrl', 'Ctrl', true, false],
+    ['ArrowLeft', '←', '←', '←', false, false],
+    ['ArrowUp', '↑', '↑', '↑', false, false],
+    ['ArrowDown', '↓', '↓', '↓', false, false],
+    ['ArrowRight', '→', '→', '→', false, false],
+  ],
+];
+const CapsToggle = false;
+let ShiftToggle = false;
+
 function divAdd() {
   const newDiv = document.createElement('div');
-  newDiv.classList.add('class1');
+  newDiv.classList.add('KeyboardContainer');
   document.body.append(newDiv);
 }
 
-// добавление TextArea и её дива
 function textAreaAdd() {
   let newDiv = document.createElement('div');
-  newDiv.classList.add('textAreaClass');
+  newDiv.classList.add('textAreaContainer');
   document.body.prepend(newDiv);
-  const ourDiv = document.querySelector('.textAreaClass');
+  const ourDiv = document.querySelector('.textAreaContainer');
   newDiv = document.createElement('textarea');
   newDiv.classList.add('textArea');
   ourDiv.append(newDiv);
@@ -19,104 +94,29 @@ function textAreaAdd() {
 textAreaAdd();
 divAdd();
 
-const buttonDiv = document.querySelector('.class1');
+const buttonDiv = document.querySelector('.KeyboardContainer');
+const buttonRows = buttonDiv.children;
 const area = document.querySelector('.textArea');
-const CapsToggle = false;
-let ShiftToggle = false;
 
-function newSymbol(keyName, usualName, shiftName, capsName, specialTag, documentEventTrigger) {
+
+function buttonNamesConverter(keyName, usualName, shiftName, capsName, specialTag, eventTrigger) {
   return {
-    keyName, // ключ, на который будет ивент листенер
+    keyName,
     usualName,
     shiftName,
     capsName,
     specialTag,
-    documentEventTrigger,
+    eventTrigger,
   };
 }
 
-const digits = [
-  [
-    ['Digit1', '1', '!', '1', false, 0],
-    ['Digit2', '2', '@', '2', false, 0],
-    ['Digit3', '3', '#', '3', false, 0],
-    ['Digit4', '4', '$', '4', false, 0],
-    ['Digit5', '5', '%', '5', false, 0],
-    ['Digit6', '6', '^', '6', false, 0],
-    ['Digit7', '7', '&', '7', false, 0],
-    ['Digit8', '8', '*', '8', false, 0],
-    ['Digit9', '9', '(', '9', false, 0],
-    ['Digit0', '0', ')', '0', false, 0],
-    ['Minus', '-', '_', '-', false, 0],
-    ['Equal', '=', '+', '=', false, 0],
-    ['Backspace', 'Backspace', 'Backspace', 'Backspace', true, 0],
-  ],
-  [
-    ['Tab', 'Tab', 'Tab', 'Tab', true, 0],
-    ['KeyQ', 'q', 'Q', 'q', false, 0],
-    ['KeyW', 'w', 'W', 'w', false, 0],
-    ['KeyE', 'e', 'E', 'e', false, 0],
-    ['KeyR', 'r', 'R', 'r', false, 0],
-    ['KeyT', 't', 'T', 't', false, 0],
-    ['KeyY', 'y', 'Y', 'y', false, 0],
-    ['KeyU', 'u', 'U', 'u', false, 0],
-    ['KeyI', 'i', 'I', 'i', false, 0],
-    ['KeyO', 'o', 'O', 'o', false, 0],
-    ['KeyP', 'p', 'P', 'p', false, 0],
-    ['[', '[', '{', '[', false, 0],
-    [']', ']', '}', ']', false, 0],
-  ],
-  [
-    ['CapsLock', 'CapsLock', 'CapsLock', 'CapsLock', true, 0],
-    ['KeyA', 'a', 'A', 'a', false, 0],
-    ['KeyS', 's', 'S', 's', false, 0],
-    ['KeyD', 'd', 'D', 'd', false, 0],
-    ['KeyF', 'f', 'F', 'f', false, 0],
-    ['KeyG', 'g', 'G', 'g', false, 0],
-    ['KeyH', 'h', 'H', 'h', false, 0],
-    ['KeyJ', 'j', 'J', 'j', false, 0],
-    ['KeyK', 'k', 'K', 'k', false, 0],
-    ['KeyL', 'l', 'L', 'l', false, 0],
-    ['Semicolon', ';', ':', 'p', false, 0],
-    ['Quote', '\'', '"', '\'', false, 0],
-    ['Backslash', '\\', '|', '\\', false, 0],
-    ['Enter', 'Enter', 'Enter', 'Enter', true, 0],
-  ],
-  [
-    ['Shift', 'Shift', 'Shift', 'Shift', true, 0],
-    ['KeyZ', 'z', 'Z', 'z', false, 0],
-    ['KeyX', 'x', 'X', 'x', false, 0],
-    ['KeyC', 'c', 'C', 'c', false, 0],
-    ['KeyV', 'v', 'V', 'v', false, 0],
-    ['KeyB', 'b', 'B', 'b', false, 0],
-    ['KeyN', 'n', 'N', 'n', false, 0],
-    ['KeyM', 'm', 'M', 'm', false, 0],
-    ['Comma', ',', '<', ',', false, 0],
-    ['Period', '.', '>', '.', false, 0],
-    ['Slash', '/', '?', '/', false, 0],
-    ['Shift', 'Shift', 'Shift', 'Shift', true, 0],
-  ],
-  [
-    ['ControlLeft', 'Ctrl', 'Ctrl', 'Ctrl', true, 0],
-    ['AltLeft', 'Alt', 'Alt', 'Alt', true, 0],
-    ['Space', 'Space', 'Space', 'Space', true, 0],
-    ['AltRight', 'Alt', 'Alt', 'Alt', true, 0],
-    ['ControlRight', 'Ctrl', 'Ctrl', 'Ctrl', true, 0],
-    ['ArrowLeft', '←', '←', '←', false, 0],
-    ['ArrowUp', '↑', '↑', '↑', false, 0],
-    ['ArrowDown', '↓', '↓', '↓', false, 0],
-    ['ArrowRight', '→', '→', '→', false, 0],
-  ],
-];
-
-// создание объекта из общего массива
-digits.forEach((item, i) => {
+buttonNames.forEach((item, i) => {
   item.forEach((item2, j) => {
-    digits[i][j] = newSymbol(...item2);
+    buttonNames[i][j] = buttonNamesConverter(...item2);
   });
 });
 
-// ф-ия для BackSpace
+
 function deleteBeforeCursor() {
   const start = area.selectionStart;
   const end = area.selectionEnd;
@@ -133,7 +133,6 @@ function deleteBeforeCursor() {
   area.focus();
 }
 
-// Добавление текста с учётом раскладки
 function addTextAreaText(item) {
   if (CapsToggle === false && ShiftToggle === false) {
     area.value += item.usualName;
@@ -146,152 +145,132 @@ function addTextAreaText(item) {
   }
 }
 
-// для обычных символов
-function keyEventNotSpecial(newButton, item, i, rowNumber) {
-  newButton.addEventListener('mousedown', () => {
-    addTextAreaText(item);
-    newButton.classList.add('active');
-  });
-  newButton.addEventListener('mouseup', () => {
-    newButton.classList.remove('active');
-  });
-  if (item.documentEventTrigger === 0) {
-    document.addEventListener('keydown', (event) => {
-      if (event.code === item.keyName) {
-        newButton.classList.add('active');
+function redraw(specialName, param) {
+  for (let j = 0; j < buttonRows.length; j += 1) {
+    const button = buttonRows[j].children;
+    for (let i = 0; i < button.length; i += 1) {
+      if (specialName) {
+        if (param === 'Shift') { button[i].innerHTML = buttonNames[j][i].shiftName; }
       }
-    });
-    document.addEventListener('keyup', (event) => {
-      if (event.code === item.keyName) {
-        addTextAreaText(item);
-        newButton.classList.remove('active');
+      if (!specialName) {
+        button[i].innerHTML = buttonNames[j][i].usualName;
       }
-    });
-    digits[rowNumber][i].documentEventTrigger = 1;
+    }
   }
 }
 
-// для специальных симолов
-function keyEventYesSpecial(newButton, item, i, rowNumber) {
+function addButtonMouseAnimation(button) {
+  button.addEventListener('mousedown', () => {
+    button.classList.add('active');
+  });
+  button.addEventListener('mouseup', () => {
+    button.classList.remove('active');
+  });
+}
+
+function addButtonKeyAnimation(button, item, i, rowNumber) {
+  document.addEventListener('keydown', (event) => {
+    if (event.code === item.keyName) {
+      button.classList.add('active');
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if (event.code === item.keyName) {
+      button.classList.remove('active');
+    }
+  });
+  buttonNames[rowNumber][i].eventTrigger = true;
+}
+
+function keyEventAddUsualButton(newButton, item, i, rowNumber) {
+  newButton.addEventListener('mousedown', () => {
+    addTextAreaText(item);
+  });
+  addButtonMouseAnimation(newButton);
+  if (item.eventTrigger === false) {
+    document.addEventListener('keyup', (event) => {
+      if (event.code === item.keyName) {
+        addTextAreaText(item);
+      }
+    });
+    addButtonKeyAnimation(newButton, item, i, rowNumber);
+  }
+}
+
+function keyEventAddSpecialButton(newButton, item, i, rowNumber) {
   if (item.keyName === 'Shift') {
+    addButtonMouseAnimation(newButton);
     newButton.addEventListener('mousedown', () => {
-      newButton.classList.add('active');
       ShiftToggle = true;
-      // eslint-disable-next-line no-use-before-define
       redraw(ShiftToggle, 'Shift');
     });
     newButton.addEventListener('mouseup', () => {
-      newButton.classList.remove('active');
       ShiftToggle = false;
-      // eslint-disable-next-line no-use-before-define
       redraw(ShiftToggle, 'Shift');
     });
-    if (item.documentEventTrigger === 0) {
+    if (item.eventTrigger === false) {
+      addButtonKeyAnimation(newButton, item, i, rowNumber);
       document.addEventListener('keydown', (event) => {
         if (event.key === item.keyName) {
-          newButton.classList.add('active');
           ShiftToggle = true;
-          // eslint-disable-next-line no-use-before-define
           redraw(ShiftToggle, 'Shift');
         }
       });
       document.addEventListener('keyup', (event) => {
         if (event.key === item.keyName) {
-          newButton.classList.remove('active');
           ShiftToggle = false;
-          // eslint-disable-next-line no-use-before-define
           redraw(ShiftToggle, 'Shift');
         }
       });
-      digits[rowNumber][i].documentEventTrigger = 1;
     }
   }
 
   if (item.keyName === 'Backspace') {
-    newButton.addEventListener('mousedown', () => {
-      newButton.classList.add('active');
-    });
+    addButtonMouseAnimation(newButton);
     newButton.addEventListener('mouseup', () => {
-      newButton.classList.remove('active');
       deleteBeforeCursor();
     });
-    if (item.documentEventTrigger === 0) {
-      document.addEventListener('keydown', (event) => {
-        if (event.key === item.keyName) {
-          newButton.classList.add('active');
-        }
-      });
+    if (item.eventTrigger === false) {
+      addButtonKeyAnimation(newButton, item, i, rowNumber);
       document.addEventListener('keyup', (event) => {
         if (event.key === item.keyName) {
-          newButton.classList.remove('active');
           deleteBeforeCursor();
         }
       });
-      digits[rowNumber][i].documentEventTrigger = 1;
     }
   }
 
   if (item.keyName !== 'Backspace' && item.keyName !== 'Shift') {
-    newButton.addEventListener('mousedown', () => {
-      newButton.classList.add('active');
-    });
-    newButton.addEventListener('mouseup', () => {
-      newButton.classList.remove('active');
-    });
-    if (item.documentEventTrigger === 0) {
-      document.addEventListener('keydown', (event) => {
-        if (event.code === item.keyName) {
-          newButton.classList.add('active');
-        }
-      });
-      document.addEventListener('keyup', (event) => {
-        if (event.code === item.keyName) {
-          newButton.classList.remove('active');
-        }
-      });
-      digits[rowNumber][i].documentEventTrigger = 1;
+    addButtonMouseAnimation(newButton);
+    if (item.eventTrigger === false) {
+      addButtonKeyAnimation(newButton, item, i, rowNumber);
     }
   }
 }
 
-// создание кнопок
-function createKeyboard(ourDiv, digit, rowNumber) {
-  digit.forEach((item, i) => {
+function createButtons(buttonRow, buttons, rowNumber) {
+  buttons.forEach((item, i) => {
     const newButton = document.createElement('button');
-    newButton.classList.add('button_class');
+    newButton.classList.add('buttonClass');
     newButton.append(item.usualName);
     if (item.specialTag === false) {
-      keyEventNotSpecial(newButton, item, i, rowNumber);
+      keyEventAddUsualButton(newButton, item, i, rowNumber);
     }
     if (item.specialTag === true) {
-      keyEventYesSpecial(newButton, item, i, rowNumber);
+      keyEventAddSpecialButton(newButton, item, i, rowNumber);
     }
-    ourDiv.append(newButton);
+    buttonRow.append(newButton);
   });
 }
 
-// создание рядов для корректного отображения клавиатуры
 function CreateButtonRows(row) {
   row.forEach((item, i) => {
-    const newDiv = document.createElement('div');
-    newDiv.classList.add('class1_podclass');
-    buttonDiv.append(newDiv);
-    createKeyboard(newDiv, item, i);
+    const newButtonRow = document.createElement('div');
+    newButtonRow.classList.add('KeyboardRowClass');
+    buttonDiv.append(newButtonRow);
+    createButtons(newButtonRow, item, i);
   });
 }
-CreateButtonRows(digits);
 
-const b = buttonDiv.children; // перерисовка клавиатуры при нажатии шифт или капс
-function redraw(specialName, param) {
-  for (let j = 0; j < b.length; j += 1) {
-    const a = b[j].children;
-    for (let i = 0; i < a.length; i += 1) {
-      if (specialName) {
-        if (param === 'Shift') { a[i].innerHTML = digits[j][i].shiftName; }
-      }
-      if (!specialName) {
-        a[i].innerHTML = digits[j][i].usualName;
-      }
-    }
-  }
-}
+
+CreateButtonRows(buttonNames);

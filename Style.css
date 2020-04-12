@@ -1,28 +1,8 @@
-.class1 {
-    margin: auto;
-    width: 800px;
-    height: 400px;
-    background: #8987a5;
-    flex-direction: column;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+button {
+    all: unset;
 }
 
-.class1_podclass{
-
-}
-
-.button_class {
-    min-width: 2.5em;
-    margin: 1px;
-    width: auto;
-    height: 2rem;
-    transition: background 0.5s ease;
-    background: burlywood;
-}
-
-.textAreaClass {
+.textAreaContainer {
     margin: auto;
     width: 800px;
     height: 100px;
@@ -36,11 +16,36 @@
     height: 100%;
 }
 
+.KeyboardContainer {
+    margin: auto;
+    width: 800px;
+    height: 400px;
+    background: #8987a5;
+    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.KeyboardRowClass{
+}
+
+.buttonClass {
+    min-width: 2.5em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    margin: 1px;
+    width: auto;
+    height: 2rem;
+    transition: background 0.5s ease;
+    background: burlywood;
+}
+
 .active {
     transition: background 0.5s ease;
     background: aqua;
 }
 
-.button_class.active {
+.buttonClass.active {
     background: aqua;
 }
