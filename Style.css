@@ -1,36 +1,51 @@
-.class1{
-    margin: auto;
-    width: 800px;
-    height: 400px;
-
-    background: #8987a5;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+button {
+    all: unset;
 }
 
-.button_class{
-    padding: 0;
-    margin: 5px;
-    width: 100px;
-    height: 100px;
-    background: burlywood;
-}
-
-.textAreaClass{
+.textAreaContainer {
     margin: auto;
     width: 800px;
     height: 100px;
 
 }
 
-.textArea{
+.textArea {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
 }
-.active{background: aqua}
-.button_class.active{background: aqua;}
+
+.KeyboardContainer {
+    margin: auto;
+    width: 800px;
+    height: 400px;
+    background: #8987a5;
+    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.KeyboardRowClass{
+}
+
+.buttonClass {
+    min-width: 2.5em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    margin: 1px;
+    width: auto;
+    height: 2rem;
+    transition: background 0.5s ease;
+    background: burlywood;
+}
+
+.active {
+    transition: background 0.5s ease;
+    background: aqua;
+}
+
+.buttonClass.active {
+    background: aqua;
+}
